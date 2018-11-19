@@ -21,28 +21,27 @@ DEFCONFIG="oneplus5_defconfig"
 
 # Kernel Details
 VER=RenderZenith
-VARIANT="OP5-OOS-O-EAS"
+VARIANT="OP5T-OOS-O-EAS"
 
 # Kernel zip name
 HASH=`git rev-parse --short=8 HEAD`
 KERNEL_ZIP="RZ-$VARIANT-$(date +%y%m%d)-$HASH" 
 
 # Vars
-export LOCALVERSION=~`echo $VER`
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER=RenderZenith
-export KBUILD_BUILD_HOST=renderserver.net
+export KBUILD_BUILD_USER=infected_
+export KBUILD_BUILD_HOST=infected-labs
 export LOCALVERSION=~`echo $KERNEL_ZIP`
 export CCACHE=ccache
 
 # Paths
 KERNEL_DIR=`pwd`
-KBUILD_OUTPUT="${KERNEL_DIR}/../out"
-REPACK_DIR="${HOME}/android/source/kernel/AnyKernel2"
-PATCH_DIR="${HOME}/android/source/kernel/AnyKernel2/patch"
-MODULES_DIR="${HOME}/android/source/kernel/AnyKernel2/ramdisk/renderzenith/modules"
-ZIP_MOVE="${HOME}/android/source/zips/OP5-zips"
+KBUILD_OUTPUT="${KERNEL_DIR}/out"
+REPACK_DIR="/mnt/Building/AnyKernel2-render"
+PATCH_DIR="/mnt/Building/AnyKernel2-render/patch"
+MODULES_DIR="/mnt/Building/AnyKernel2-render/ramdisk/renderzenith/modules"
+ZIP_MOVE="/mnt/Building/Out_Zips"
 ZIMAGE_DIR="$KBUILD_OUTPUT/arch/arm64/boot"
 
 # Functions
@@ -100,15 +99,19 @@ echo "RenderZenith creation script:"
 echo -e "${restore}"
 
 echo "Pick Toolchain..."
-select choice in gcc-linaro-6.4.1-2018.05-x86_64_aarch64-linux-gnu gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu
+select choice in gcc-linaro-6.4.1-2018.05-x86_64_aarch64-linux-gnu gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu
 do
 case "$choice" in
     "gcc-linaro-6.4.1-2018.05-x86_64_aarch64-linux-gnu")
-        export CROSS_COMPILE=${HOME}/android/source/toolchains/gcc-linaro-6.4.1-2018.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+        export CROSS_COMPILE="/mnt/Building/aarch64-linux-gnu-6.x-linaro/bin/aarch64-linux-gnu-"
         break;;
     "gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu")
-        export CROSS_COMPILE=${HOME}/android/source/toolchains/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+        export CROSS_COMPILE="/mnt/Building/aarch64-linux-gnu-7.x-original/bin/aarch64-linux-gnu-"
         break;;
+    "gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu")
+        export CROSS_COMPILE="/mnt/Building/gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-"
+        break;;
+
 
 esac
 done
